@@ -1,0 +1,3 @@
+For using of Linear kSAT Solver must be installed:
+1) numpy & lp_solver 5.5
+2) Description of installation could be found in "doc/Using lpsolve from Python.html"
