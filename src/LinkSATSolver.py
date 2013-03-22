@@ -3,6 +3,7 @@
 from lp_maker import *
 import numpy
 from time import time
+import sys
 #import pycallgraph
 
 class Solver:
@@ -24,19 +25,11 @@ class Solver:
                 X[abs(rX[0])-1] = 0
             rlist = [1]
             return numpy.array(rlist)
-        tlist = [xlist.tolist()]
-        xl = []
-        for i in xrange(len(rX)):
-            xl.append(X[abs(rX[i])-1])
-        xln = numpy.array(xl)
-        rx = numpy.sum(numpy.extract(numpy.greater(xln,0), xln))# + len(numpy.extract(numpy.equal(xln,0), xln))
-        r1 = numpy.sum(numpy.extract(numpy.greater(xlist,0), xlist))        
-        r = r1 + numpy.sum(numpy.extract(numpy.less(xlist,0), xlist))                      
-        srrx = r+rx        
-        if srrx!= 0:        
-            tlistr = [srrx]
-        else:
-            tlistr = [r1+rx]
+        tlist = [numpy.abs(xlist).tolist()]
+        r1 = numpy.sum(numpy.extract(numpy.greater(xlist,0), xlist)) 
+        r2 = numpy.sum(numpy.extract(numpy.less(xlist,0), xlist))                      
+        r = r1 + abs(r2) - 1
+        tlistr = [r]
         eqlist = [0]
         for i in xrange(len(xlist)):
             sX = numpy.zeros(len(xlist),numpy.int)
@@ -159,7 +152,7 @@ if __name__ == '__main__':
     #pycallgraph.start_trace()
     list = []
     s = Solver()
-    filename = 'inputaes.cnf'#'aes-10-10-36.cnf'#'inputapp2.cnf'
+    filename = 'input1.cnf'#'aes-10-10-36.cnf'#'inputapp2.cnf'
     N,nn = s.readcnfHead(filename)
     X = numpy.array(  [ -1 for j in xrange(N)]  )
     avksat = []
