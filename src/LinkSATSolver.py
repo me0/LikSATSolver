@@ -123,13 +123,34 @@ class Solver:
         nc = int(ll[3])
         print desk,name, nv, nc
         f.close()
-        return nv,nc       
+        return nv,nc  
+        
+    def output(self,rez,X,fout):
+        if rez:
+            print 'SAT'
+            print '[',    
+            for i in xrange(len(X)):    
+                if X[i] != 0:        
+                   if fout=='DIMACS':
+                       print i+1,
+                   else:
+                       print X[i],
+                else:
+                    if fout=='DIMACS':
+                       print -(i+1),
+                    else:
+                       print X[i],
+                if i> 0 and not i%100:
+                    print '\n',
+            print ']' 
+        else:
+            print 'UNSAT'
     
 if __name__ == '__main__':
     #pycallgraph.start_trace()
     list = []
     s = Solver()
-    filename = 'inputaes.cnf'#'inputapp2.cnf'
+    filename = 'inputaes.cnf'#'aes-10-10-36.cnf'#'inputapp2.cnf'
     N,nn = s.readcnfHead(filename)
     X = numpy.array(  [ -1 for j in xrange(N)]  )
     avksat = []
@@ -170,9 +191,10 @@ if __name__ == '__main__':
             t1 = time()
             tsum += t1 - t0
             it += 1          
-        f.close()      
-    print "%d; %f; %d; %d"%(nn,tsum,s.ksat(X,filename),max(avksat))
-    print X
+        f.close() 
+    rez = s.ksat(X,filename)
+    print "%d; %f; %d; %d"%(nn,tsum,rez,max(avksat))
+    s.output(rez,X,'BINARY')#BINARY & DIMACS
     numpy.delete(X,X,None)
     #pycallgraph.make_dot_graph('test.png')
         
