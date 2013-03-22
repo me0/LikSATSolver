@@ -29,7 +29,7 @@ class Solver:
         for i in xrange(len(rX)):
             xl.append(X[abs(rX[i])-1])
         xln = numpy.array(xl)
-        rx = numpy.sum(numpy.extract(numpy.greater(xln,0), xln)) + numpy.sum(numpy.extract(numpy.less(xln,0), xln))
+        rx = numpy.sum(numpy.extract(numpy.greater(xln,0), xln))# + numpy.sum(numpy.extract(numpy.less(xln,0), xln))
         r = numpy.sum(numpy.extract(numpy.greater(xlist,0), xlist)) + numpy.sum(numpy.extract(numpy.less(xlist,0), xlist))        
         tlistr = [r+rx]
         eqlist = [0]
@@ -124,7 +124,7 @@ if __name__ == '__main__':
     #pycallgraph.start_trace()
     list = []
     s = Solver()
-    filename = 'input7h.cnf'#'inputapp2.cnf'
+    filename = 'test.cnf'#'inputapp2.cnf'
     N,nn = s.readcnfHead(filename)
     X = numpy.array(  [ -1 for j in xrange(N)]  )
     avksat = []
