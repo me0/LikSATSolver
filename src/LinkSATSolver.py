@@ -126,25 +126,34 @@ class Solver:
         return nv,nc  
         
     def output(self,rez,X,fout):
+        f = open('output.dimacs','w') 
+        lout = ''
         if rez:
-            print 'SAT'
-            print '[',    
+            lout += 'SAT\n'
+            if fout != 'DIMACS':
+                lout += '['  
             for i in xrange(len(X)):    
                 if X[i] != 0:        
                    if fout=='DIMACS':
-                       print i+1,
+                       lout += '%d '%(i+1)
                    else:
-                       print X[i],
+                       lout += '%d '%(X[i])
                 else:
                     if fout=='DIMACS':
-                       print -(i+1),
+                       lout += '%d '%(-i-1)
                     else:
-                       print X[i],
+                       lout += '%d '%(X[i])
                 if i> 0 and not i%100:
-                    print '\n',
-            print ']' 
+                    if fout != 'DIMACS': lout += '\n'
+            if fout == 'DIMACS':
+                lout += '0'
+            else:
+                lout += ']'
         else:
-            print 'UNSAT'
+            lout += 'UNSAT'
+        print lout
+        f.write(lout)
+        f.close()
     
 if __name__ == '__main__':
     #pycallgraph.start_trace()
