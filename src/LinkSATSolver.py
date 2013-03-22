@@ -29,9 +29,14 @@ class Solver:
         for i in xrange(len(rX)):
             xl.append(X[abs(rX[i])-1])
         xln = numpy.array(xl)
-        rx = numpy.sum(numpy.extract(numpy.greater(xln,0), xln))# + numpy.sum(numpy.extract(numpy.less(xln,0), xln))
-        r = numpy.sum(numpy.extract(numpy.greater(xlist,0), xlist)) + numpy.sum(numpy.extract(numpy.less(xlist,0), xlist))        
-        tlistr = [r+rx]
+        rx = numpy.sum(numpy.extract(numpy.greater(xln,0), xln))# + len(numpy.extract(numpy.equal(xln,0), xln))
+        r1 = numpy.sum(numpy.extract(numpy.greater(xlist,0), xlist))        
+        r = r1 + numpy.sum(numpy.extract(numpy.less(xlist,0), xlist))                      
+        srrx = r+rx        
+        if srrx!= 0:        
+            tlistr = [srrx]
+        else:
+            tlistr = [r1+rx]
         eqlist = [0]
         for i in xrange(len(xlist)):
             sX = numpy.zeros(len(xlist),numpy.int)
@@ -97,9 +102,9 @@ class Solver:
                 rXi = int(ln[j])
                 arXi1 = abs(rXi) - 1
                 if rXi > 0:
-                    xlist[arXi1-1] = X[arXi1-1]
+                    xlist[arXi1] = X[arXi1]
                 elif rXi < 0:
-                    xlist[arXi1-1] = 1 - X[arXi1-1]
+                    xlist[arXi1] = 1 - X[arXi1]
             rez = self.f3(rez,numpy.sum(xlist))
             #print rez
             if rez == 0: 
@@ -124,7 +129,7 @@ if __name__ == '__main__':
     #pycallgraph.start_trace()
     list = []
     s = Solver()
-    filename = 'test.cnf'#'inputapp2.cnf'
+    filename = 'inputaes.cnf'#'inputapp2.cnf'
     N,nn = s.readcnfHead(filename)
     X = numpy.array(  [ -1 for j in xrange(N)]  )
     avksat = []
