@@ -1,4 +1,4 @@
--Linear kSAT Solver is made using A.Maknickas kSAT linear solution algorithm described in:
+-Linear kSAT Solver is made using kSAT linear solution algorithm described in:
 
 Maknickas Algirdas, Antano (2013). Linear Programming formulation of kSAT, The International MultiConference of Engineers and Computer Scientists 2013, Hong Kong, 13-15 March, p. 1066
 
