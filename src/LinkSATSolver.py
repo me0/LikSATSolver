@@ -28,9 +28,9 @@ class Solver:
         tlist = [numpy.abs(xlist).tolist()]
         r1 = numpy.sum(numpy.extract(numpy.greater(xlist,0), xlist)) 
         r2 = numpy.sum(numpy.extract(numpy.less(xlist,0), xlist))                      
-        r = r1 + abs(r2) - 1
-        tlistr = [r]
-        eqlist = [0]
+        r = 1#r1 + abs(r2) - 1
+        tlistr = [1]#[r]
+        eqlist = [1]#[0]
         for i in xrange(len(xlist)):
             sX = numpy.zeros(len(xlist),numpy.int)
             sX[i] = 1
@@ -152,7 +152,7 @@ if __name__ == '__main__':
     #pycallgraph.start_trace()
     list = []
     s = Solver()
-    filename = 'input1.cnf'#'aes-10-10-36.cnf'#'inputapp2.cnf'
+    filename = 'test1.cnf'#'aes-10-10-36.cnf'#'inputapp2.cnf'
     N,nn = s.readcnfHead(filename)
     X = numpy.array(  [ -1 for j in xrange(N)]  )
     avksat = []
