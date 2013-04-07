@@ -8,7 +8,7 @@ import sys
 
 class Solver:
     def __init__(self):
-        pass    
+        pass
 
     def f3(self, a, b):
         if a == 0 or b == 0:
@@ -26,8 +26,8 @@ class Solver:
             rlist = [1]
             return numpy.array(rlist)
         tlist = [numpy.abs(xlist).tolist()]
-        r1 = numpy.sum(numpy.extract(numpy.greater(xlist,0), xlist)) 
-        r2 = numpy.sum(numpy.extract(numpy.less(xlist,0), xlist))                      
+        r1 = numpy.sum(numpy.extract(numpy.greater(xlist,0), xlist))
+        r2 = numpy.sum(numpy.extract(numpy.less(xlist,0), xlist))
         r = 1#r1 + abs(r2) - 1
         tlistr = [1]#[r]
         eqlist = [1]#[0]
@@ -72,7 +72,7 @@ class Solver:
                     #X[arXi1] = 1 - rlist[i]
                     pass
             else:
-                pass             
+                pass
         return X
     
     def ksat(self,X,filename):
@@ -82,12 +82,12 @@ class Solver:
             l = f.readline()
         ll = l.split(' ')
         nv = int(ll[2])
-        nc = int(ll[3])        
+        nc = int(ll[3])
         kiek = nc
         kiekX = nv
         rez = 1
-        xlist = numpy.zeros(kiekX,numpy.int)
         for i in xrange(kiek):
+            xlist = numpy.zeros(kiekX,numpy.int)
             line=f.readline()
             if not line: break
             ln = line.split(' ')
@@ -100,7 +100,7 @@ class Solver:
                     xlist[arXi1] = 1 - X[arXi1]
             rez = self.f3(rez,numpy.sum(xlist))
             #print rez
-            if rez == 0: 
+            if rez == 0:
                 return rez
         return rez
 
@@ -116,17 +116,17 @@ class Solver:
         nc = int(ll[3])
         print desk,name, nv, nc
         f.close()
-        return nv,nc  
+        return nv,nc
         
     def output(self,rez,X,fout):
-        f = open('output.dimacs','w') 
+        f = open('output.dimacs','w')
         lout = ''
         if rez:
             lout += 'SAT\n'
             if fout != 'DIMACS':
-                lout += '['  
-            for i in xrange(len(X)):    
-                if X[i] != 0:        
+                lout += '['
+            for i in xrange(len(X)):
+                if X[i] != 0:
                    if fout=='DIMACS':
                        lout += '%d '%(i+1)
                    else:
@@ -154,24 +154,24 @@ if __name__ == '__main__':
     s = Solver()
     filename = 'test1.cnf'#'aes-10-10-36.cnf'#'inputapp2.cnf'
     N,nn = s.readcnfHead(filename)
-    X = numpy.array(  [ -1 for j in xrange(N)]  )
+    X = numpy.array( [ -1 for j in xrange(N)] )
     avksat = []
     tsum = 0
     rez = 1
-    it = 0              
+    it = 0
     for ci in [1,2,3]:
         f = open(filename,'r')
         l = f.readline()
         while l.find('p ')<0:
             l = f.readline()
         ll = l.split(' ')
-        nv = int(ll[2])        
-        for k in xrange(nn):           
+        nv = int(ll[2])
+        for k in xrange(nn):
             t0 = time()
             line=f.readline()
             if not line: break
             ln = line.split(' ')
-            if ci == 1:            
+            if ci == 1:
                 if len(ln)>2: continue
             elif ci == 2:
                 if len(ln)!=3: continue
@@ -182,7 +182,7 @@ if __name__ == '__main__':
             for i in xrange(len(ln)-1):
                 rXi = int(ln[i])
                 rX.append(rXi)
-                if rXi>0: 
+                if rXi>0:
                     clist.append(1)
                 elif rXi<0:
                     clist.append(-1)
@@ -192,11 +192,10 @@ if __name__ == '__main__':
             X = s.update(clist,rlist,rX,X,it)
             t1 = time()
             tsum += t1 - t0
-            it += 1          
-        f.close() 
+            it += 1
+        f.close()
     rez = s.ksat(X,filename)
     print "%d; %f; %d; %d"%(nn,tsum,rez,max(avksat))
     s.output(rez,X,'BINARY')#BINARY & DIMACS
     numpy.delete(X,X,None)
     #pycallgraph.make_dot_graph('test.png')
-        
